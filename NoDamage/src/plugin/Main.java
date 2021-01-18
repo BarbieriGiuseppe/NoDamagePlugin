@@ -1,6 +1,7 @@
 package plugin;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -31,8 +32,13 @@ public class Main extends JavaPlugin {
 			System.out.println("Plugin Disabilitato");
 		}
 		
+		@EventHandler
 		public void onPlayerEvent(EntityDamageByEntityEvent pint) {
-			if(pint.getEntity().getType() == EntityType.PLAYER) {
+			if(pint.getDamager() instanceof Player && pint.getEntity() instanceof Player ) {
+				Player whoWasHit = (Player) pint.getEntity();
+				Player whoHit = (Player) pint.getDamager();
+				
+				whoHit.sendMessage("ho picchiato" + whoWasHit.getName());
 				pint.setCancelled(true);
 			}
 			
