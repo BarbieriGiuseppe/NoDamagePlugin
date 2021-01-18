@@ -1,0 +1,6 @@
+main: plugin.Main
+name: NoDamage
+version: 1.0
+description: Descrizione del plugin
+author: ReStar
+load: POSTWORLD
