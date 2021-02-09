@@ -2,6 +2,7 @@ package plugin;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -52,7 +53,7 @@ public class Main extends JavaPlugin implements Listener{
 			    //DamageTaker is a Player
 			   damageTaker = (Player) damageTaker;
 			    
-			    if (damager instanceof Player) {
+			    if (damager instanceof Player && ((HumanEntity) damager).getInventory().getItemInMainHand() == null || ((HumanEntity) damager).getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
 			        //Damage Causer is also a player
 			         damager = (Player) damager;
 			        e.setCancelled(true);
