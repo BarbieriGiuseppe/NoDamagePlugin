@@ -1,14 +1,22 @@
 package plugin;
+import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
+import net.md_5.bungee.api.ChatColor;
+
+public class Main extends JavaPlugin implements Listener{ 
 
 	
 		
@@ -25,6 +33,9 @@ public class Main extends JavaPlugin {
 			 		+ "                                 |___/                          |______|______|\r\n"
 			 		+ "");
 					
+			
+			
+		 getServer().getPluginManager().registerEvents(this,this);
 		}
 		
 		@Override
@@ -33,18 +44,34 @@ public class Main extends JavaPlugin {
 		}
 		
 		@EventHandler
-		public void onPlayerEvent(EntityDamageByEntityEvent pint) {
-			if(pint.getDamager() instanceof Player && pint.getEntity() instanceof Player ) {
-				Player whoWasHit = (Player) pint.getEntity();
-				Player whoHit = (Player) pint.getDamager();
-				
-				whoHit.sendMessage("ho picchiato" + whoWasHit.getName());
-				pint.setCancelled(true);
+		public void onPlayerDamage(EntityDamageByEntityEvent e) {
+			Entity damager = e.getDamager();
+			Entity damageTaker = e.getEntity();
+			
+			if (damageTaker instanceof Player) {
+			    //DamageTaker is a Player
+			   damageTaker = (Player) damageTaker;
+			    
+			    if (damager instanceof Player) {
+			        //Damage Causer is also a player
+			         damager = (Player) damager;
+			        e.setCancelled(true);
+			        messageSender(damager,damageTaker);
+			    }
+			    
 			}
+			
+
+	}
+		
+		public void messageSender(Entity damager, Entity damageTaker) {
+			
+			damager.sendMessage("ho picchiato   " + damageTaker.getName());
 			
 		}
 		
-
-	}
-
-
+		
+		
+		
+		
+}
