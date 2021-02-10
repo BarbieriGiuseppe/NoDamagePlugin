@@ -46,18 +46,21 @@ public class Main extends JavaPlugin implements Listener{
 		
 		@EventHandler
 		public void onPlayerDamage(EntityDamageByEntityEvent e) {
-			Entity damager = e.getDamager();
-			Entity damageTaker = e.getEntity();
+			//Player damager = (Player) e.getDamager();
+			//Player damageTaker = (Player) e.getEntity();
 			
-			if (damageTaker instanceof Player) {
+			if (e.getEntity() instanceof Player) {
 			    //DamageTaker is a Player
-			   damageTaker = (Player) damageTaker;
+			   Player damageTaker = (Player)e.getEntity();
 			    
-			    if (damager instanceof Player && ((HumanEntity) damager).getInventory().getItemInMainHand() == null || ((HumanEntity) damager).getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
-			        //Damage Causer is also a player
-			         damager = (Player) damager;
-			        e.setCancelled(true);
-			        messageSender(damager,damageTaker);
+			    if (e.getDamager() instanceof Player) {
+			       Player damager = (Player)e.getDamager();
+			       
+			    	if(damager.getInventory().getItemInMainHand().getType().equals(Material.AIR)){
+			    		e.setDamage(0);
+			    		messageSender(damager,damageTaker);
+			    	}
+			        
 			    }
 			    
 			}
@@ -70,6 +73,8 @@ public class Main extends JavaPlugin implements Listener{
 			damager.sendMessage("ho picchiato   " + damageTaker.getName());
 			
 		}
+		
+		
 		
 		
 		
